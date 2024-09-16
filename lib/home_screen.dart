@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'; // Importar Supabase
 import 'nodesarrollad_screen.dart';
+import 'wereable_screen.dart'; // Nueva pantalla para wearable
+import 'modem_screen.dart'; // Nueva pantalla para modem
+import 'ajustescontacto_screen.dart'; // Nueva pantalla para ajustes de contacto
 
 class HomeScreen extends StatefulWidget {
   final Map<String, String> contactData;
@@ -62,7 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final response = await supabase
         .from('device_measurements')
         .select('measurement_type, measurement_value')
-        .eq('device_user_id', widget.contactData['id'] as Object); // Obtenemos todas las filas que correspondan con el device_user_id
+        .eq(
+            'device_user_id',
+            widget.contactData['id']
+                as Object); // Obtenemos todas las filas que correspondan con el device_user_id
 
     if (response != null) {
       final measurements = response as List<dynamic>;
@@ -127,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 16),
                 // Rellenamos los campos con los datos obtenidos de la base de datos
                 Text('Género: $gender'),
-                Text('Fecha de nacimiento: $dateOfBirth'), // Aquí puedes formatear la fecha si lo deseas
+                Text(
+                    'Fecha de nacimiento: $dateOfBirth'), // Aquí puedes formatear la fecha si lo deseas
                 Text('Altura: $height cm'),
                 Text('Peso: $weight kg'),
               ],
@@ -138,15 +145,18 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: GridView.count(
               crossAxisCount: 2, // Número de columnas
-              childAspectRatio: 2, // Relación de aspecto para que sean más anchos que altos
+              childAspectRatio:
+                  2, // Relación de aspecto para que sean más anchos que altos
               mainAxisSpacing: 16, // Espacio vertical entre los recuadros
               crossAxisSpacing: 16, // Espacio horizontal entre los recuadros
               padding: EdgeInsets.all(16),
               children: [
                 _buildDataCard('Frecuencia Cardiaca', heartRate),
-                _buildDataCard('Glucosa', glucose), // Añadido recuadro para Glucosa
+                _buildDataCard(
+                    'Glucosa', glucose), // Añadido recuadro para Glucosa
                 _buildDataCard('Pasos Realizados', 'N/A'),
-                _buildDataCard('Temperatura Corporal', bodyTemperature), // Rellenamos con temperatura
+                _buildDataCard('Temperatura Corporal',
+                    bodyTemperature), // Rellenamos con temperatura
               ],
             ),
           ),
@@ -156,17 +166,47 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Estadísticas'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Agregar'),
-          BottomNavigationBarItem(icon: Icon(Icons.contact_page), label: 'Contactos'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Mi Perfil'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: 'Estadísticas'), // Mantiene en esta pantalla
+          BottomNavigationBarItem(
+              icon: Icon(Icons.watch),
+              label: 'Wearable'), // Nueva pantalla WearableScreen
+          BottomNavigationBarItem(
+              icon: Icon(Icons.router),
+              label: 'Módem'), // Nueva pantalla ModemScreen
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Ajustes'), // Nueva pantalla AjustesContactoScreen
         ],
         onTap: (index) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NoDesarrolladScreen()),
-          );
+          switch (index) {
+            case 0:
+              // Mantener en esta pantalla (Estadísticas)
+              break;
+            case 1:
+              // Navegar a WearableScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WearableScreen()),
+              );
+              break;
+            case 2:
+              // Navegar a ModemScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ModemScreen()),
+              );
+              break;
+            case 3:
+              // Navegar a AjustesContactoScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AjustesContactoScreen()),
+              );
+              break;
+          }
         },
       ),
     );
