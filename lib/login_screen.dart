@@ -119,19 +119,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       final User? user = res.user;
 
                       if (user != null) {
-                        final tenantData =
-                            await supabase.from('saas.tenants').select('id');
+                        final tenantData = await supabase.rpc('get_tenants');
 
                         print('Tenant Data: $tenantData');
 
                         if (tenantData != null && tenantData.isNotEmpty) {
-                          int tenantId = tenantData as int;
+                          List tenantId = tenantData as List;
+                          String tenantIdString = tenantId.join(", ");
+
+                          int startIndex = tenantIdString.indexOf(':') +
+                              1; // +1 para ignorar el punto
+                          int endIndex = tenantIdString.indexOf(',');
+
+                          String tenant_id = tenantIdString
+                              .substring(startIndex, endIndex)
+                              .trim();
+
+                          Fluttertoast.showToast(
+                              msg: "Tenant IDs: $tenant_id",
+                              toastLength: Toast.LENGTH_LONG);
+
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ContactListScreen(tenantId: tenantId),
+                                  ContactListScreen(tenantId: tenant_id),
                             ),
                           );
                         } else {

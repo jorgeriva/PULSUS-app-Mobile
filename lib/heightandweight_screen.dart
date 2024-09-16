@@ -81,7 +81,7 @@ class _HeightAndWeightScreenState extends State<HeightAndWeightScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ContactListScreen(tenantId: 2),
+                      builder: (context) => ContactListScreen(tenantId: '2'),
                       settings: RouteSettings(
                         arguments: {
                           'nombre': widget.nombre,

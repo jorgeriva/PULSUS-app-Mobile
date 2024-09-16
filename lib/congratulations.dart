@@ -34,7 +34,7 @@ class CongratulationsScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ContactListScreen(tenantId: 2), // cambiar a futuro
+                        builder: (context) => ContactListScreen(tenantId:'2'), // cambiar a futuro
                       )
                   );
                 },
