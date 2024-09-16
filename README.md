@@ -1,16 +1,11 @@
-# myapp
+# PULSUS app Mobile
 
-A new Flutter project.
+Aplicación mobil desarrollada durante los laboratorios LABIC-ES por el equipo de Terceridade
 
-## Getting Started
+## Problema actual
+Cuando iniciamos sesión hacemos una llamada a la base de datos de supabase para tratar de obtener el tenant_id,
+este se encuentra en el schema saas, no en el public. El problema se genera por que no somos capaces de acceder a
+ese esquema. Las soluciones que encontramos implican lo siguiente.  1  await supabase.from('saas.tenants').select('id');
+poner el saas. antes del nombre de la tabla, no da resultado. 2 cambiar algun permiso en supabase, por lo que hemos 
+revisado los permisos están correctos.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
